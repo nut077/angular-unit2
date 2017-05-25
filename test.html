@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+<script>
+  // 1
+  class Set {
+    constructor(array) {
+      this._set = array
+    }
+    intersect(set) {
+      const newSet = set.toArray();
+      return this._set.filter(item => newSet.includes(item));
+    }
+    union(set) {
+      return [...this._set, ...set.toArray()]
+        .reduce(
+          (result, item) =>
+            result.includes(item)
+              ? result
+              : [...result, item]
+          , []);
+    }
+    differ(set) {
+      const newSet = set.toArray();
+      return this._set.filter(item => !newSet.includes(item));
+    }
+    toArray() {
+      return this._set;
+    }
+  }
+
+  const setA = new Set([1, 2, 3, 4, 5]);
+  const setB = new Set([2, 3, 7, 1]);
+
+  // setA และ setB มีสมาชิก 1, 2, 3 เช่นเดียวกัน
+  console.log(setA.intersect(setB)); // [1, 2, 3]
+
+  // นำสมาชิกของทั้งสอง Set มารวมกัน
+  // ทั้งนี้สมาชิกของ Set จะไม่มีตัวซ้ำกัน
+  console.log(setA.union(setB)); // [1, 2, 3, 4, 5, 7]
+
+  // มีเพียง 4 และ 5 ที่มีใน setA แต่ไม่มีใน setB
+  console.log(setA.differ(setB)); // [4, 5]
+
+  // 3
+  const date = '2017-03-26';
+  const [year, month, day] = date.split('-');
+  console.log(year, month, day);
+
+  // 4
+  const HTTP_STATUSES = {
+    100: 'CONTINUE',
+    200: 'OK',
+    201: 'CREATED',
+    302: 'FOUND',
+    401: 'UNAUTHORIZED',
+    500: 'INTERNAL SERVER ERROR',
+    501: 'NOT IMPLEMENTED'
+  };
+
+  console.log(Object.entries(HTTP_STATUSES).map(([, msg]) => msg));
+
+  // 5
+  const links = [
+    'https://www.babelcoder.com/blog/posts/typescript-classes',
+    'https://www.babelcoder.com/blog/posts/react-redux-isomorphic-day4-react-redux-isomorphic',
+    'https://www.babelcoder.com/blog/posts/create-react-app-with-no-configuration',
+    'https://www.babelcoder.com/blog/posts/angular2-angular-cli',
+    'https://www.babelcoder.com/blog/posts/typescript-data-types'
+  ];
+
+  console.log(links.reduce(
+    (result, item) =>
+      [...result, item.slice(38)]
+    , []));
+
+  const ESCAPED_BASE_URL = 'https:\/\/www.babelcoder.com\/blog\/posts\/';
+  const REGEXP = new RegExp(`${ESCAPED_BASE_URL}([a-z-]+)`);
+  const slugs = links.reduce(
+    (result, item) =>
+      [...result, REGEXP.exec(item)[1]]
+    , []);
+  console.log(slugs);
+</script>
+</body>
+</html>

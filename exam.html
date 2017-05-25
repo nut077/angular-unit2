@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+
+<script>
+  // 1
+  const uniq = (array) =>
+    array.reduce(
+      (result, item) =>
+        result.includes(item)
+          ? result
+          : [...result, item]
+      , []);
+  console.log(uniq([1, 2, 2, 1, 4]));
+
+  // 2
+  const concatAll = (arr) =>
+    arr.reduce(
+      (result, item) =>
+        [...result, ...item]
+      , []);
+
+  console.log(concatAll([[1, 2, 3], [4, 5, 6], [7, 8, 9]]));
+  console.log(concatAll([[1, [2, 3]], [4, 5]]));
+
+  // 3
+  const movieLists = [{
+    name: "New Releases",
+    videos: [{
+      "id": 70111470,
+      "title": "Die Hard",
+      "rating": 4.0
+    }, {
+      "id": 654356453,
+      "title": "Bad Boys",
+      "rating": 5.0
+    }]
+  }, {
+    name: "Dramas",
+    videos: [{
+      "id": 65432445,
+      "title": "The Chamber",
+      "rating": 4.0
+    }, {
+      "id": 675465,
+      "title": "Fracture",
+      "rating": 5.0
+    }]
+  }];
+
+  const getRateFive = (obj) =>
+    obj.reduce(
+      (result, item) =>
+        [...result, ...item.videos]
+      , [])
+      .filter(item => item.rating === 5)
+      .map(item => item.id);
+
+  console.log(getRateFive(movieLists));
+
+  // 4
+  const users = [
+    {user: 'barney', active: false},
+    {user: 'fred', active: false},
+    {user: 'pebbles', active: true}
+  ];
+
+  const dropWhile = (array, fn) =>
+    array.filter(item => !fn(item));
+
+  // ฟังก์ชันเงื่อนไขจะรับพารามิเตอร์เข้ามาในแต่ละรอบเป็นค่าของแต่ละอีลีเมนต์ในอาร์เรย์
+  console.log(dropWhile(users, (element) => !element.active)); // [{ user: 'pebbles', active: true }]
+</script>
+</body>
+</html>

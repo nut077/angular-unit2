@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+<script>
+
+  let str = 'hello';
+  //console.log(`${str} Freedom`);
+
+  function setLastName(lastName) {
+    var order = 0;
+    return function getName(firstName) {
+      return `${++order}.${firstName} ${lastName}`;
+    }
+  }
+
+  var family = setLastName('Freedom');
+  //console.log(family('Nut'));
+
+  function foo() {
+    const x = Object.freeze({a: 5}); // ไม่สามารถเปลี่ยนค่า x ได้
+    //const x = {a : 5}; // สามารถเปลี่ยนค่าของ x ได้
+    x.a = 6;
+    return x;
+  }
+  //console.log(foo());
+
+  const person = {
+    name: 'Fredom',
+    printName() {
+      console.log(this.name);
+    }
+  };
+  var printName = person.printName.bind(person);
+  //printName();
+
+  function printOrder(count) {
+    //console.log(count, this.name, this.model);
+  }
+
+  const cannon = {
+    name: 'Cannon',
+    model: 'Pixma MP250'
+  };
+
+  const hp = {
+    name: 'HP',
+    model: 'K7W99A'
+  };
+
+  printOrder.call(cannon, 1);
+  printOrder.apply(hp, [2]);
+  const cannonOrder = printOrder.bind(cannon, 3);
+  cannonOrder();
+
+  function global() {
+    console.log(this);
+  }
+  //global();
+
+  function Prefixer(prefix = '') {
+    this.prefix = prefix;
+  }
+
+  Prefixer.prototype.prefixArray = function (array = []) {
+    return array.map(item => {
+      return `${this.prefix} ${item}`;
+    })
+  };
+
+  const prefixer = new Prefixer('Dr.');
+  const doctors = ['Somchai', 'Somsree', 'Somset']
+
+  //console.log(prefixer.prefixArray(doctors));
+
+  const foo2 = a => a + 1;
+  //console.log(foo2(2));
+
+  function foo3(a, b, c) {
+    return a + b + c;
+  }
+
+  var arr = [5, 2, 3];
+  //console.log(foo3.apply(null, arr));
+  //console.log(Math.min.apply(null, arr));
+
+  var promise = new Promise(function (reslove, reject) {
+    setTimeout(function () {
+      reslove('Done');
+    }, 1000);
+  });
+
+  promise.then(function (result) {
+    //console.log(`reslove = ${result}`);
+  }).catch(function (error) {
+    //console.log(`error = ${error}`);
+  });
+
+  const counter = (function () {
+    let count = 0;
+    return {
+      increment() {
+        count++;
+      },
+      decrement() {
+        count--;
+      },
+      getCount() {
+        return count;
+      }
+    }
+  })();
+
+  counter.increment();
+  //console.log(counter.getCount());
+
+  let arr2 = ['Somchai', 'Somsree', 'Somset'];
+  arr2.forEach(function (item, index, array) {
+    //console.log(item, index);
+  });
+
+  for (let index in arr2) {
+    //console.log(index);
+  }
+
+  for (let value of arr2) {
+    //console.log(value);
+  }
+
+  const obj1 = {a: 1, b: 3, c: 2};
+  const obj2 = {c: 5, d: 4};
+  //console.log({...obj1, ...obj2});
+
+  function sum(...rest) {
+    console.log(rest);
+  }
+  //sum(1, 3, 5);
+
+  const somchai = {
+    name: {
+      firstName: 'Somchai',
+      lastName: 'Haha'
+    },
+    age: 22,
+    gender: 'male'
+  };
+
+  const {age, gender, name: {firstName, lastName}} = somchai;
+  /*console.log(age);
+   console.log(gender);
+   console.log(firstName);
+   console.log(lastName);*/
+
+  class Human {
+    constructor(name) {
+      this.name = name;
+    }
+
+    printName() {
+      console.log(this.name);
+    }
+  }
+
+  class Woman extends Human {
+    constructor(name) {
+      super(name)
+    }
+
+    pregnant() {
+      console.log('pregnant');
+    }
+  }
+
+  const somsree = new Woman('Somsree');
+  //somsree.printName();
+
+
+  /*const Walkable = {
+   walk() {
+   console.log("I'm walking.");
+   }
+   };
+
+   const Printable = {
+   print() {
+   console.log(this.name);
+   }
+   };
+
+   const Barkable = {
+   bark() {
+   console.log('Boo')
+   }
+   };
+
+   const Dog = name => ({
+   name,
+   ...Printable,
+   ...Walkable,
+   ...Barkable
+   });
+
+   const Cat = name => ({
+   name,
+   ...Printable,
+   ...Walkable
+   });*/
+
+  //const dog = new Dog('Fanta');
+  /*dog.print();
+   dog.bark();
+   dog.walk();*/
+
+  //const cat = new Cat('Eiei');
+  /*cat.print();
+   cat.walk();*/
+
+  const a = [1, 2, 3];
+  const b = [5, 6];
+  //const c = [...a, 4, ...b];
+  //console.log(c);
+
+  const n1 = [2, 4, 6];
+  //console.log(n1.map(num => num * 2));
+
+  const student = [
+    {id: 1, advisorId: 1},
+    {id: 2, advisorId: 2},
+    {id: 3, advisorId: 3},
+    {id: 4, advisorId: 1},
+    {id: 5, advisorId: 5}
+  ];
+  //console.log(student.filter(student => student.advisorId === 1));
+
+  const n2 = [1, 2, 3, 4, 5];
+  /*console.log(n2.find(num => num % 2 === 0));
+  console.log(n2.findIndex(num => num % 2 === 0));
+  console.log(n2.reduce((sum, num) => sum + num));
+  console.log(n2.reduce((sum, num) => sum + num, 0)); // กำหนดค่าเริ่มต้นของ sum*/
+
+  const log = level => message => {
+    console.log(`${level}: ${message}`);
+  };
+  const test = log('DEBUG');
+  //test('tset');
+
+  const title = 'I am a Man';
+  const lowercase = title => title.toLowerCase();
+  const dasherize = title => title.replace(/ +/g, '-');
+  const compose = (...fns) => (
+    (arg) => fns.reduce(
+      (composed, fn) => fn(composed), arg
+    )
+  );
+
+  /*console.log(compose(
+    lowercase,
+    dasherize
+  )(title));*/
+
+  function factorial(x) {
+    return x > 0 ? x * factorial(x - 1) : 1;
+  }
+  //console.log(factorial(5));
+
+  const bar = () => 123;
+  const foo4 = () => console.log(456);
+  const zoo = () => ((bar(), foo4()));
+  //zoo();
+
+  const factorial2 = (n, p = 1) => (
+    n <= 1 ? p : factorial2(n - 1, n * p)
+  );
+  console.log(factorial2(5));
+</script>
+</body>
+</html>
